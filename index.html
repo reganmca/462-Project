@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What America Was Reading — 2023 to 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --ink:#1a1714;--paper:#faf8f4;--accent:#b5451b;--accent2:#2c5f8a;--gold:#c9973a;
+    --muted:#6b6560;--border:#e0dbd2;--card:#ffffff;
+    --serif:'Playfair Display',Georgia,serif;
+    --sans:'DM Sans',system-ui,sans-serif;
+  }
+  html{scroll-behavior:smooth;background:var(--paper)}
+  body{font-family:var(--sans);color:var(--ink);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,244,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;gap:2rem}
+  .nav-logo{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--accent);flex:0 0 auto}
+  .nav-links{display:flex;gap:1.5rem;list-style:none}
+  .nav-links a{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .progress-bar{position:fixed;top:52px;left:0;height:2px;background:var(--accent);z-index:100;transition:width .1s;width:0%}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:80px 2rem 4rem;position:relative;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%, #f0ebe0 0%, var(--paper) 70%);z-index:0}
+  .hero-content{position:relative;z-index:1;max-width:700px}
+  .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;font-weight:500}
+  .hero h1{font-family:var(--serif);font-size:clamp(2.4rem,6vw,4.5rem);line-height:1.1;color:var(--ink);margin-bottom:1.5rem}
+  .hero h1 em{color:var(--accent);font-style:italic}
+  .hero-sub{font-size:1.05rem;color:var(--muted);line-height:1.7;max-width:540px;margin:0 auto 2.5rem}
+  .scroll-cue{display:flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  .scroll-arrow{width:1px;height:40px;background:linear-gradient(to bottom, transparent, var(--accent));animation:scrollpulse 2s ease-in-out infinite}
+  @keyframes scrollpulse{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+
+  /* SECTIONS */
+  section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
+  .section-header{text-align:center;margin-bottom:3.5rem}
+  .section-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;font-weight:500}
+  .section-title{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.2;color:var(--ink);margin-bottom:1rem}
+  .section-desc{font-size:.95rem;color:var(--muted);max-width:600px;margin:0 auto;line-height:1.7}
+
+  /* DIVIDER */
+  .divider{width:100%;height:1px;background:var(--border);margin:0}
+
+  /* STAT ROW */
+  .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;margin:2rem 0 3rem}
+  .stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.25rem 1.5rem;text-align:center}
+  .stat-num{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--accent);display:block;line-height:1}
+  .stat-label{font-size:12px;color:var(--muted);margin-top:.4rem;letter-spacing:.04em}
+
+  /* BUMP CHART */
+  #bump-section{padding:5rem 2rem}
+  .bump-container{max-width:1100px;margin:0 auto}
+  .bump-controls{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2rem;justify-content:center}
+  .bump-controls button{font-family:var(--sans);font-size:12px;padding:.35rem .9rem;border:1px solid var(--border);border-radius:20px;background:transparent;cursor:pointer;color:var(--muted);transition:all .2s;letter-spacing:.03em}
+  .bump-controls button.active{background:var(--ink);color:white;border-color:var(--ink)}
+  .bump-controls button:hover:not(.active){background:var(--paper);color:var(--ink)}
+  #bump-svg{width:100%;overflow:visible}
+  .bump-legend{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;margin-top:1.5rem}
+  .legend-item{display:flex;align-items:center;gap:.4rem;font-size:12px;color:var(--muted);cursor:pointer}
+  .legend-dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+
+  /* GENRE CHART */
+  .genre-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+  @media(max-width:700px){.genre-grid{grid-template-columns:1fr}}
+  .genre-bars{display:flex;flex-direction:column;gap:.7rem}
+  .genre-bar-row{display:flex;align-items:center;gap:.8rem}
+  .genre-name{font-size:12px;color:var(--ink);width:180px;flex:0 0 180px;text-align:right;line-height:1.3}
+  .genre-track{flex:1;height:20px;background:#f0ede7;border-radius:3px;overflow:hidden;position:relative}
+  .genre-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.25,.46,.45,.94);display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+  .genre-count{font-size:11px;font-weight:500;color:white}
+  .genre-details{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem}
+  .genre-detail-title{font-family:var(--serif);font-size:1.1rem;margin-bottom:1rem;color:var(--ink)}
+  .detail-stat{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #f0ede7;font-size:13px}
+  .detail-stat:last-child{border-bottom:none}
+  .detail-key{color:var(--muted)}
+  .detail-val{font-weight:500;color:var(--ink)}
+
+  /* BUBBLE / SCATTER */
+  .bubble-controls{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
+  .bubble-controls label{font-size:12px;color:var(--muted);margin-right:.3rem}
+  .bubble-controls select{font-family:var(--sans);font-size:13px;padding:.3rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--ink);cursor:pointer}
+  #bubble-canvas{border-radius:8px}
+
+  /* LONGEVITY TABLE */
+  .longevity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+  .book-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.3rem;cursor:pointer;transition:all .2s;position:relative}
+  .book-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(181,69,27,.1);transform:translateY(-2px)}
+  .book-card.selected{border-color:var(--accent);border-width:2px;background:#fdf6f3}
+  .book-rank-badges{display:flex;gap:.4rem;margin-bottom:.6rem}
+  .rank-badge{font-size:10px;padding:.2rem .5rem;border-radius:4px;font-weight:500;letter-spacing:.03em}
+  .rank-badge.y23{background:#fde8de;color:#9a3210}
+  .rank-badge.y24{background:#deeaf7;color:#1a4f7a}
+  .rank-badge.y25{background:#e0f4e8;color:#1a6135}
+  .rank-badge.none{background:#f0ede7;color:#a09890}
+  .book-title{font-family:var(--serif);font-size:.9rem;line-height:1.3;margin-bottom:.25rem;color:var(--ink)}
+  .book-author{font-size:11px;color:var(--muted)}
+  .book-meta{display:flex;gap:.6rem;margin-top:.5rem;flex-wrap:wrap}
+  .book-tag{font-size:10px;padding:.15rem .5rem;border-radius:3px;background:#f0ede7;color:var(--muted)}
+  .book-price{font-size:12px;font-weight:500;color:var(--accent);margin-left:auto}
+
+  /* TOOLTIP */
+  .tooltip{position:fixed;background:var(--ink);color:white;padding:.7rem 1rem;border-radius:8px;font-size:12px;line-height:1.5;pointer-events:none;z-index:999;max-width:220px;opacity:0;transition:opacity .15s}
+  .tooltip.show{opacity:1}
+  .tooltip-title{font-family:var(--serif);font-size:13px;margin-bottom:.25rem}
+
+  /* FILTER BAR */
+  .filter-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;align-items:center}
+  .filter-bar span{font-size:12px;color:var(--muted);margin-right:.2rem}
+  .filter-btn{font-family:var(--sans);font-size:11px;padding:.25rem .7rem;border:1px solid var(--border);border-radius:15px;background:transparent;cursor:pointer;color:var(--muted);transition:all .2s;letter-spacing:.02em}
+  .filter-btn.active{background:var(--accent);color:white;border-color:var(--accent)}
+  .filter-btn:hover:not(.active){color:var(--ink)}
+
+  /* YEAR TOGGLE */
+  .year-tab-bar{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;width:fit-content;margin-bottom:2rem}
+  .year-tab{font-family:var(--sans);font-size:13px;padding:.5rem 1.2rem;border:none;background:transparent;cursor:pointer;color:var(--muted);transition:all .2s;border-right:1px solid var(--border)}
+  .year-tab:last-child{border-right:none}
+  .year-tab.active{background:var(--ink);color:white}
+
+  /* PRICE SCATTER */
+  #price-chart-wrap{position:relative;width:100%;height:380px}
+
+  /* FOOTER */
+  footer{background:var(--ink);color:rgba(255,255,255,.5);text-align:center;padding:2.5rem;font-size:12px;margin-top:4rem}
+  footer strong{color:white}
+
+  /* ANIMATE IN */
+  .fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .fade-in.visible{opacity:1;transform:none}
+
+  /* RESPONSIVE */
+  @media(max-width:640px){
+    .genre-name{width:110px;flex:0 0 110px;font-size:11px}
+    nav .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="tooltip" id="tooltip"><div class="tooltip-title" id="tt-title"></div><div id="tt-body"></div></div>
+<div class="progress-bar" id="progress"></div>
+
+<nav>
+  <div class="nav-logo">Best Sellers 2023–2025</div>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#trends">Trends</a></li>
+    <li><a href="#genres">Genres</a></li>
+    <li><a href="#price">Price</a></li>
+    <li><a href="#legends">Legends</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="eyebrow">An Interactive Data Story</div>
+    <h1>What <em>America</em><br>Was Reading</h1>
+    <p class="hero-sub">Three years. 210 titles. One Amazon bestseller list. Scroll to discover which books endured, which genres dominated, and what it reveals about us.</p>
+    <div class="scroll-cue" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- OVERVIEW STATS -->
+<section id="overview">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">The big picture</div>
+    <h2 class="section-title">Three years of what we couldn't put down</h2>
+    <p class="section-desc">From 2023 to 2025, Amazon's top 100 list tracked a snapshot of American reading culture — moment by moment, genre by genre.</p>
+  </div>
+  <div class="stat-row fade-in">
+    <div class="stat-card"><span class="stat-num">210</span><div class="stat-label">Unique titles tracked</div></div>
+    <div class="stat-card"><span class="stat-num">23</span><div class="stat-label">Books in all 3 years</div></div>
+    <div class="stat-card"><span class="stat-num">21</span><div class="stat-label">Genres represented</div></div>
+    <div class="stat-card"><span class="stat-num">$1–$53</span><div class="stat-label">Price range</div></div>
+  </div>
+  <div class="fade-in" style="max-width:780px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 2.5rem">
+    <p style="font-family:var(--serif);font-size:1.2rem;line-height:1.75;color:var(--ink)">
+      "Some books briefly catch the current. Others <em>are</em> the current." 
+    </p>
+    <p style="font-size:.85rem;color:var(--muted);margin-top:.8rem">Atomic Habits held a top-10 spot across all three years. The Housemaid kept climbing. Meanwhile, memoir biopics of celebrities vanished almost as fast as they appeared. The data tells a story about how we process culture — and which ideas outlast the moment.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RANK TRAJECTORY BUMP CHART -->
+<section id="trends" id="bump-section">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Rank trajectories</div>
+    <h2 class="section-title">How books moved through the list</h2>
+    <p class="section-desc">Each line traces a book's ranking across 2023, 2024, and 2025. Rising lines mean climbing ranks. Filter by genre to see patterns emerge.</p>
+  </div>
+  <div class="bump-container fade-in">
+    <div class="bump-controls" id="bump-genre-btns"></div>
+    <svg id="bump-svg" viewBox="0 0 900 480"></svg>
+    <div class="bump-legend" id="bump-legend"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GENRE BREAKDOWN -->
+<section id="genres">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Genre landscape</div>
+    <h2 class="section-title">Fiction ruled. Self-improvement endured.</h2>
+    <p class="section-desc">Click any genre bar to explore its average price, ratings, and key authors.</p>
+  </div>
+  <div class="genre-grid fade-in">
+    <div>
+      <div class="genre-bars" id="genre-bars"></div>
+    </div>
+    <div class="genre-details" id="genre-details">
+      <div class="genre-detail-title" id="gd-title">Select a genre</div>
+      <div id="gd-stats"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICE vs RANK SCATTER -->
+<section id="price">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Price & popularity</div>
+    <h2 class="section-title">Does cheaper mean more popular?</h2>
+    <p class="section-desc">Each dot is a book. Hover to identify it. Filter by year or genre to isolate patterns.</p>
+  </div>
+  <div class="fade-in">
+    <div class="bubble-controls">
+      <label>Year:</label>
+      <select id="scatter-year">
+        <option value="all">All years</option>
+        <option value="23">2023</option>
+        <option value="24">2024</option>
+        <option value="25">2025</option>
+      </select>
+      <label>Genre:</label>
+      <select id="scatter-genre"><option value="all">All genres</option></select>
+    </div>
+    <div id="price-chart-wrap">
+      <canvas id="price-canvas" role="img" aria-label="Scatter chart of book price vs rank"></canvas>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LONGEVITY — 3-YEAR BOOKS -->
+<section id="legends">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">The perennials</div>
+    <h2 class="section-title">23 books that stayed on the list all three years</h2>
+    <p class="section-desc">These are the books that transcended the moment. Filter by genre or sort to find the most durable titles.</p>
+  </div>
+  <div class="fade-in">
+    <div class="filter-bar">
+      <span>Genre:</span>
+      <button class="filter-btn active" data-genre="all">All</button>
+    </div>
+    <div class="longevity-grid" id="longevity-grid"></div>
+  </div>
+</section>
+
+<footer>
+  <strong>What America Was Reading</strong> — Data: Amazon Best Sellers 2023–2025 &nbsp;·&nbsp; Built for INFO 4310
+</footer>
+
+<script>
+const BOOKS = [{"t":"Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones","st":"Atomic Habits: An Easy & Proven Way to Build ...","a":"James Clear","g":"Self-Improvement","p":18.88,"rt":4.8,"rv":145747,"r23":1,"r24":3,"r25":6,"y":3,"f":"Hardcover"},{"t":"Iron Flame (Standard Edition) (The Empyrean, 2)","st":"Iron Flame (Standard Edition) (The Empyrean,...","a":"Rebecca Yarros","g":"Fiction & Action & Adventure","p":11.05,"rt":4.7,"rv":395512,"r23":2,"r24":13,"r25":null,"y":2,"f":"Hardcover"},{"t":"Spare","st":"Spare","a":"Prince Harry  The Duke of Sussex","g":"Biographies & Memoirs","p":11.99,"rt":4.5,"rv":116101,"r23":3,"r24":null,"r25":null,"y":1,"f":"Hardcover"},{"t":"Fourth Wing","st":"Fourth Wing","a":"Rebecca Yarros","g":"Fiction & Action & Adventure","p":13.62,"rt":4.8,"rv":472618,"r23":4,"r24":16,"r25":76,"y":3,"f":"Paperback"},{"t":"The Woman in Me","st":"The Woman in Me","a":"Britney Spears","g":"Biographies & Memoirs","p":11.37,"rt":4.4,"rv":51520,"r23":5,"r24":null,"r25":null,"y":1,"f":"Hardcover"},{"t":"Lessons in Chemistry: A Novel","st":"Lessons in Chemistry: A Novel","a":"Bonnie Garmus","g":"Fiction & Action & Adventure","p":13.94,"rt":4.6,"rv":322650,"r23":6,"r24":null,"r25":null,"y":1,"f":"Hardcover"},{"t":"The 48 Laws of Power","st":"The 48 Laws of Power","a":"Robert Greene","g":"Politics & Social Sciences","p":13.99,"rt":4.7,"rv":87375,"r23":7,"r24":11,"r25":53,"y":3,"f":"Paperback"},{"t":"The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma","st":"The Body Keeps the Score: Brain, Mind, and Bo...","a":"Bessel van der Kolk M.D.","g":"Health & Fitness & Dieting","p":14.39,"rt":4.8,"rv":82564,"r23":8,"r24":18,"r25":16,"y":3,"f":"Paperback"},{"t":"It Starts with Us: A Novel (It Ends with Us)","st":"It Starts with Us: A Novel (It Ends with Us)","a":"Colleen Hoover","g":"Fiction & Action & Adventure","p":1.88,"rt":4.5,"rv":228242,"r23":9,"r24":19,"r25":null,"y":2,"f":"Paperback"},{"t":"Outlive: The Science and Art of Longevity","st":"Outlive: The Science and Art of Longevity","a":"Peter Attia MD","g":"Health & Fitness & Dieting","p":18.0,"rt":4.6,"rv":19946,"r23":10,"r24":52,"r25":62,"y":3,"f":"Hardcover"},{"t":"It Ends with Us: A Novel","st":"It Ends with Us: A Novel","a":"Colleen Hoover","g":"Fiction & Action & Adventure","p":9.03,"rt":4.7,"rv":405311,"r23":11,"r24":9,"r25":null,"y":2,"f":"Paperback"},{"t":"The Housemaid","st":"The Housemaid","a":"Freida McFadden","g":"Mystery & Thriller & Suspense","p":9.69,"rt":4.5,"rv":653111,"r23":12,"r24":15,"r25":5,"y":3,"f":"Paperback"},{"t":"The Very Hungry Caterpillar","st":"The Very Hungry Caterpillar","a":"Eric Carle","g":"Reading & Writing","p":5.75,"rt":4.9,"rv":78436,"r23":13,"r24":46,"r25":17,"y":3,"f":"Board book"},{"t":"Killers of the Flower Moon: The Osage Murders and the Birth of the FBI","st":"Killers of the Flower Moon: The Osage Murders...","a":"David Grann","g":"Politics & Social Sciences","p":9.99,"rt":4.4,"rv":80996,"r23":14,"r24":null,"r25":null,"y":1,"f":"Paperback"},{"t":"Verity","st":"Verity","a":"Colleen Hoover","g":"Fiction & Action & Adventure","p":12.09,"rt":4.6,"rv":443390,"r23":15,"r24":40,"r25":82,"y":3,"f":"Paperback"},{"t":"The Seven Husbands of Evelyn Hugo","st":"The Seven Husbands of Evelyn Hugo","a":"Taylor Jenkins Reid","g":"Fiction & Action & Adventure","p":6.91,"rt":4.6,"rv":270507,"r23":16,"r24":73,"r25":null,"y":2,"f":"Paperback"},{"t":"The Creative Act: A Way of Being","st":"The Creative Act: A Way of Being","a":"Rick Rubin","g":"Health & Fitness & Dieting","p":16.99,"rt":4.7,"rv":10805,"r23":17,"r24":91,"r25":null,"y":2,"f":"Hardcover"},{"t":"Taylor Swift: A Little Golden Book Biography","st":"Taylor Swift: A Little Golden Book Biography","a":"Wendy Loggia","g":"Arts & Music & Photography","p":4.35,"rt":4.9,"rv":9344,"r23":18,"r24":92,"r25":null,"y":2,"f":"Hardcover"},{"t":"The Four Agreements: A Practical Guide to Personal Freedom","st":"The Four Agreements: A Practical Guide to Per...","a":"Janet Mills","g":"Self-Improvement","p":7.05,"rt":4.7,"rv":119661,"r23":19,"r24":29,"r25":47,"y":3,"f":"Paperback"},{"t":"Demon Copperhead: A Novel","st":"Demon Copperhead: A Novel","a":"Barbara Kingsolver","g":"Fiction & Action & Adventure","p":17.1,"rt":4.6,"rv":146667,"r23":20,"r24":null,"r25":null,"y":1,"f":"Hardcover"},{"t":"A Court of Thorns and Roses","st":"A Court of Thorns and Roses","a":"Sarah J. Maas","g":"Fiction & Action & Adventure","p":12.8,"rt":4.6,"rv":314472,"r23":21,"r24":12,"r25":null,"y":2,"f":"Paperback"},{"t":"The 48 Laws of Power","st":"The 48 Laws of Power","a":"Robert Greene","g":"Politics & Social Sciences","p":13.99,"rt":4.7,"rv":87375,"r23":7,"r24":11,"r25":53,"y":3},{"t":"Brown Bear, Brown Bear, What Do You See?","st":"Brown Bear, Brown Bear, What Do You See?","a":"Bill Martin Jr.","g":"Reading & Writing","p":4.82,"rt":4.9,"rv":55794,"r23":28,"r24":36,"r25":37,"y":3,"f":"Board book"},{"t":"I Love You Like No Otter","st":"I Love You Like No Otter","a":"Rose Rossner","g":"Reading & Writing","p":5.37,"rt":4.9,"rv":14622,"r23":30,"r24":43,"r25":30,"y":3,"f":"Board book"},{"t":"My First Library: Boxset of 10 Board Books for Kids","st":"My First Library: Boxset of 10 Board Books fo...","a":"Wonder House Books","g":"Reading & Writing","p":14.99,"rt":4.6,"rv":88321,"r23":35,"r24":37,"r25":13,"y":3,"f":"Board book"},{"t":"The Wonderful Things You Will Be","st":"The Wonderful Things You Will Be","a":"Emily Winfield Martin","g":"Reading & Writing","p":9.45,"rt":4.9,"rv":32274,"r23":40,"r24":70,"r25":77,"y":3,"f":"Hardcover"},{"t":"The Psychology of Money","st":"The Psychology of Money","a":"Morgan Housel","g":"Business & Money","p":14.18,"rt":4.7,"rv":68563,"r23":44,"r24":25,"r25":23,"y":3,"f":"Paperback"},{"t":"Where's Bluey?: A Search-and-Find Book","st":"Where's Bluey?: A Search-and-Find Book","a":"Penguin Young Readers","g":"Arts & Music & Photography","p":2.7,"rt":4.8,"rv":9137,"r23":47,"r24":60,"r25":94,"y":3,"f":"Paperback"},{"t":"Chicka Chicka Boom Boom","st":"Chicka Chicka Boom Boom","a":"Bill Martin Jr.","g":"Reading & Writing","p":4.17,"rt":4.9,"rv":41314,"r23":62,"r24":47,"r25":52,"y":3,"f":"Board book"},{"t":"Scholastic Flash Cards: Sight Words","st":"Scholastic Flash Cards: Sight Words","a":"Scholastic","g":"Schools & Teaching","p":3.07,"rt":4.8,"rv":32845,"r23":69,"r24":53,"r25":42,"y":3,"f":"Cards"},{"t":"A Court of Thorns and Roses Paperback Box Set","st":"A Court of Thorns and Roses Paperback Box Set","a":"Sarah J. Maas","g":"Fiction & Action & Adventure","p":47.9,"rt":4.8,"rv":52380,"r23":72,"r24":27,"r25":85,"y":3,"f":"Paperback"},{"t":"The Nightingale: A Novel","st":"The Nightingale: A Novel","a":"Kristin Hannah","g":"Fiction & Action & Adventure","p":13.48,"rt":4.7,"rv":396005,"r23":80,"r24":22,"r25":14,"y":3,"f":"Paperback"},{"t":"What to Expect When You're Expecting","st":"What to Expect When You're Expecting","a":"Heidi Murkoff","g":"Health & Fitness & Dieting","p":9.43,"rt":4.8,"rv":30260,"r23":94,"r24":76,"r25":72,"y":3,"f":"Paperback"},{"t":"From Crook to Cook","st":"From Crook to Cook","a":"Snoop Dogg","g":"Cookbooks & Food","p":12.0,"rt":4.8,"rv":40073,"r23":96,"r24":75,"r25":65,"y":3,"f":"Hardcover"},{"t":"My First Learn-to-Write Workbook","st":"My First Learn-to-Write Workbook","a":"Crystal Radke","g":"Reading & Writing","p":5.26,"rt":4.8,"rv":89173,"r23":98,"r24":33,"r25":8,"y":3,"f":"Paperback"},{"t":"The Complete Cookbook for Young Chefs","st":"The Complete Cookbook for Young Chefs","a":"America's Test Kitchen Kids","g":"Cookbooks & Food","p":9.4,"rt":4.8,"rv":25279,"r23":74,"r24":64,"r25":99,"y":3,"f":"Hardcover"},{"t":"The Women: A Novel","st":"The Women: A Novel","a":"Kristin Hannah","g":"Fiction & Action & Adventure","p":20.5,"rt":4.7,"rv":315946,"r23":null,"r24":1,"r25":44,"y":2,"f":"Hardcover"},{"t":"Onyx Storm","st":"Onyx Storm (The Empyrean, 3)","a":"Rebecca Yarros","g":"Fiction & Action & Adventure","p":8.03,"rt":4.6,"rv":283105,"r23":null,"r24":2,"r25":18,"y":2,"f":"Hardcover"},{"t":"The Let Them Theory","st":"The Let Them Theory","a":"Mel Robbins","g":"Self-Improvement","p":9.33,"rt":4.6,"rv":36122,"r23":null,"r24":69,"r25":1,"y":2,"f":"Hardcover"},{"t":"Sunrise on the Reaping (The Hunger Games)","st":"Sunrise on the Reaping (The Hunger Games)","a":"Suzanne Collins","g":"Fiction & Action & Adventure","p":13.48,"rt":4.7,"rv":85367,"r23":null,"r24":null,"r25":2,"y":1,"f":"Hardcover"},{"t":"Forgotten Home Apothecary","st":"Forgotten Home Apothecary","a":"Dr. Nicole Apelian","g":"Health & Fitness & Dieting","p":37.01,"rt":4.7,"rv":14335,"r23":null,"r24":null,"r25":3,"y":1,"f":"Paperback"},{"t":"The Housemaid's Secret","st":"The Housemaid's Secret","a":"Freida McFadden","g":"Mystery & Thriller & Suspense","p":9.74,"rt":4.4,"rv":348084,"r23":null,"r24":null,"r25":29,"y":1,"f":"Paperback"},{"t":"The Anxious Generation","st":"The Anxious Generation","a":"Jonathan Haidt","g":"Parenting & Relationships","p":14.01,"rt":4.6,"rv":11570,"r23":null,"r24":8,"r25":19,"y":2,"f":"Hardcover"},{"t":"Animal Farm","st":"Animal Farm","a":"George Orwell","g":"Politics & Social Sciences","p":6.49,"rt":4.6,"rv":92537,"r23":null,"r24":null,"r25":63,"y":1,"f":"Paperback"},{"t":"1984","st":"1984","a":"George Orwell","g":"Politics & Social Sciences","p":5.99,"rt":4.6,"rv":122245,"r23":null,"r24":85,"r25":57,"y":2,"f":"Paperback"},{"t":"Fahrenheit 451","st":"Fahrenheit 451","a":"Ray Bradbury","g":"Politics & Social Sciences","p":9.05,"rt":4.6,"rv":58611,"r23":null,"r24":84,"r25":39,"y":2,"f":"Paperback"},{"t":"107 Days","st":"107 Days","a":"Kamala Harris","g":"Politics & Social Sciences","p":15.18,"rt":4.6,"rv":7711,"r23":null,"r24":null,"r25":54,"y":1,"f":"Hardcover"},{"t":"Hillbilly Elegy","st":"Hillbilly Elegy","a":"J. D. Vance","g":"History","p":13.51,"rt":4.4,"rv":124288,"r23":null,"r24":4,"r25":null,"y":1,"f":"Paperback"},{"t":"James (Pulitzer Prize Winner)","st":"James (Pulitzer Prize Winner)","a":"Percival Everett","g":"Politics & Social Sciences","p":16.81,"rt":4.6,"rv":95147,"r23":null,"r24":42,"r25":60,"y":2,"f":"Hardcover"},{"t":"Elon Musk","st":"Elon Musk","a":"Walter Isaacson","g":"Biographies & Memoirs","p":19.93,"rt":4.7,"rv":22689,"r23":54,"r24":null,"r25":null,"y":1,"f":"Hardcover"},{"t":"Oath and Honor","st":"Oath and Honor","a":"Liz Cheney","g":"Biographies & Memoirs","p":14.78,"rt":4.8,"rv":17084,"r23":46,"r24":null,"r25":null,"y":1,"f":"Hardcover"},{"t":"Melania","st":"Melania","a":"Melania Trump","g":"Biographies & Memoirs","p":17.0,"rt":4.6,"rv":12421,"r23":null,"r24":17,"r25":null,"y":1,"f":"Hardcover"},{"t":"Man's Search for Meaning","st":"Man's Search for Meaning","a":"Viktor E. Frankl","g":"History","p":12.86,"rt":4.7,"rv":96578,"r23":null,"r24":null,"r25":75,"y":1,"f":"Paperback"}];
+
+// All books including full dataset
+const ALL = BOOKS;
+
+// ===================== UTILITY =====================
+const tt = document.getElementById('tooltip');
+const ttTitle = document.getElementById('tt-title');
+const ttBody = document.getElementById('tt-body');
+function showTT(e, title, body){
+  ttTitle.textContent=title; ttBody.innerHTML=body;
+  tt.classList.add('show');
+  moveTT(e);
+}
+function moveTT(e){
+  let x=e.clientX+14, y=e.clientY-10;
+  if(x+240>window.innerWidth) x=e.clientX-240;
+  tt.style.left=x+'px'; tt.style.top=y+'px';
+}
+function hideTT(){tt.classList.remove('show')}
+document.addEventListener('mousemove', e => {if(tt.classList.contains('show'))moveTT(e)});
+
+// Progress bar
+window.addEventListener('scroll', ()=>{
+  const pct = window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  document.getElementById('progress').style.width=pct+'%';
+});
+
+// Fade-in observer
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:.12});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// ===================== BUMP CHART =====================
+const GENRE_COLORS = {
+  'Fiction & Action & Adventure':'#c0392b',
+  'Reading & Writing':'#2980b9',
+  'Self-Improvement':'#8e44ad',
+  'Mystery & Thriller & Suspense':'#e67e22',
+  'Health & Fitness & Dieting':'#27ae60',
+  'Biographies & Memoirs':'#16a085',
+  'Politics & Social Sciences':'#d35400',
+  'Business & Money':'#2c3e50',
+  'Arts & Music & Photography':'#c0392b',
+  'Bible Study & Reference':'#7f8c8d',
+  'Comics & Graphic Novels':'#e74c3c',
+  'Cookbooks & Food':'#f39c12',
+};
+function gColor(g){ return GENRE_COLORS[g]||'#95a5a6'; }
+
+const bumpGenres = ['All',...[...new Set(BOOKS.map(b=>b.g))].sort()];
+let activeGenre = 'All';
+
+const bumpBtns = document.getElementById('bump-genre-btns');
+bumpGenres.slice(0,9).forEach(g=>{
+  const btn = document.createElement('button');
+  btn.textContent = g==='All'?'All genres':g;
+  if(g==='All') btn.classList.add('active');
+  btn.onclick = ()=>{
+    activeGenre=g;
+    bumpBtns.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderBump();
+  };
+  bumpBtns.appendChild(btn);
+});
+
+function renderBump(){
+  const svg = document.getElementById('bump-svg');
+  const W=900, H=460, PAD={l:80,r:140,t:40,b:40};
+  const years=['2023','2024','2025'];
+  const innerW=W-PAD.l-PAD.r, innerH=H-PAD.t-PAD.b;
+
+  // filter books that have at least 2 year data points
+  let books = BOOKS.filter(b=> {
+    const pts = [b.r23,b.r24,b.r25].filter(v=>v!==null&&v!==undefined);
+    return pts.length>=2;
+  });
+  if(activeGenre!=='All') books = books.filter(b=>b.g===activeGenre);
+
+  // Deduplicate by title
+  const seen = new Set();
+  books = books.filter(b=>{ if(seen.has(b.t)) return false; seen.add(b.t); return true; });
+
+  const xScale = i => PAD.l + (i/(years.length-1))*innerW;
+  const yScale = r => PAD.t + ((r-1)/99)*innerH;
+
+  let html = `<defs>
+    <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#ccc"/>
+    </marker>
+  </defs>`;
+
+  // Grid lines
+  for(let r=10;r<=100;r+=10){
+    const y=yScale(r);
+    html+=`<line x1="${PAD.l-8}" y1="${y}" x2="${W-PAD.r}" y2="${y}" stroke="#f0ede7" stroke-width="1"/>`;
+    html+=`<text x="${PAD.l-12}" y="${y+4}" text-anchor="end" font-size="10" fill="#bbb" font-family="DM Sans,sans-serif">#${r}</text>`;
+  }
+
+  // Year labels
+  years.forEach((yr,i)=>{
+    const x=xScale(i);
+    html+=`<text x="${x}" y="${PAD.t-16}" text-anchor="middle" font-size="13" font-weight="500" fill="#6b6560" font-family="DM Sans,sans-serif">${yr}</text>`;
+    html+=`<line x1="${x}" y1="${PAD.t-8}" x2="${x}" y2="${H-PAD.b}" stroke="#e0dbd2" stroke-width="1"/>`;
+  });
+
+  // Lines
+  books.forEach(b=>{
+    const pts = [[0,b.r23],[1,b.r24],[2,b.r25]].filter(p=>p[1]!==null&&p[1]!==undefined);
+    if(pts.length<2) return;
+    const col = gColor(b.g);
+    const opacity = activeGenre==='All'? .35 : .7;
+    let d='';
+    pts.forEach(([i,r],idx)=>{ d+=(idx===0?'M':'L')+xScale(i)+','+yScale(r); });
+    html+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="${activeGenre==='All'?1.5:2}" opacity="${opacity}" 
+      data-title="${b.t.replace(/"/g,"'")}" data-author="${b.a}" 
+      style="cursor:pointer" 
+      onmouseenter="bumpHover(event,this)" onmouseleave="bumpLeave(this)"/>`;
+    pts.forEach(([i,r])=>{
+      html+=`<circle cx="${xScale(i)}" cy="${yScale(r)}" r="3" fill="${col}" opacity="${opacity}" style="pointer-events:none"/>`;
+    });
+    // end label for last point
+    const last = pts[pts.length-1];
+    const shortTitle = b.t.length>28?b.t.substring(0,25)+'...':b.t;
+    if(activeGenre!=='All'||books.length<=15){
+      html+=`<text x="${xScale(last[0])+8}" y="${yScale(last[1])+4}" font-size="9" fill="${col}" font-family="DM Sans,sans-serif" opacity=".9">${shortTitle}</text>`;
+    }
+  });
+
+  svg.innerHTML=html;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+}
+
+window.bumpHover = function(e,el){
+  const title=el.getAttribute('data-title'), author=el.getAttribute('data-author');
+  el.setAttribute('stroke-width','3'); el.setAttribute('opacity','1');
+  showTT(e, title, `<span style="color:#aaa">${author}</span>`);
+};
+window.bumpLeave = function(el){
+  el.setAttribute('stroke-width', activeGenre==='All'?'1.5':'2');
+  el.setAttribute('opacity', activeGenre==='All'?'0.35':'0.7');
+  hideTT();
+};
+
+renderBump();
+
+// ===================== GENRE BARS =====================
+const genreData = {};
+BOOKS.forEach(b=>{
+  if(!genreData[b.g]) genreData[b.g]={count:0,prices:[],ratings:[],authors:new Set(),titles:[]};
+  const gd=genreData[b.g];
+  gd.count++;
+  if(b.p) gd.prices.push(b.p);
+  if(b.rt) gd.ratings.push(b.rt);
+  gd.authors.add(b.a);
+  gd.titles.push(b.t);
+});
+const sortedGenres = Object.entries(genreData).sort((a,b)=>b[1].count-a[1].count);
+const maxCount = sortedGenres[0][1].count;
+const genreColors = ['#c0392b','#2980b9','#e67e22','#8e44ad','#27ae60','#16a085','#d35400','#2c3e50','#7f8c8d','#f39c12','#e74c3c','#95a5a6'];
+
+const genreBars = document.getElementById('genre-bars');
+sortedGenres.forEach(([g,gd],i)=>{
+  const pct=(gd.count/maxCount*100).toFixed(1);
+  const col=genreColors[i%genreColors.length];
+  const row=document.createElement('div'); row.className='genre-bar-row';
+  row.innerHTML=`<div class="genre-name">${g}</div>
+    <div class="genre-track"><div class="genre-fill" style="width:0%;background:${col}" data-w="${pct}">
+      <span class="genre-count">${gd.count}</span></div></div>`;
+  row.style.cursor='pointer';
+  row.onclick=()=>showGenreDetail(g,gd,col);
+  genreBars.appendChild(row);
+});
+
+// animate bars on scroll
+const barObs = new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    document.querySelectorAll('.genre-fill').forEach(el=>{
+      setTimeout(()=>{el.style.width=el.getAttribute('data-w')+'%'},100);
+    });
+    barObs.unobserve(entries[0].target);
+  }
+},{threshold:.2});
+barObs.observe(genreBars);
+
+function showGenreDetail(g, gd, col){
+  document.getElementById('gd-title').textContent=g;
+  const avg=p=>p.length?'$'+(p.reduce((a,b)=>a+b,0)/p.length).toFixed(2):'—';
+  const avgRt=r=>r.length?(r.reduce((a,b)=>a+b,0)/r.length).toFixed(2):'—';
+  const topAuthors=[...gd.authors].slice(0,3).join(', ');
+  document.getElementById('gd-stats').innerHTML=`
+    <div class="detail-stat"><span class="detail-key">Total books</span><span class="detail-val" style="color:${col}">${gd.count}</span></div>
+    <div class="detail-stat"><span class="detail-key">Avg price</span><span class="detail-val">${avg(gd.prices)}</span></div>
+    <div class="detail-stat"><span class="detail-key">Avg rating</span><span class="detail-val">${avgRt(gd.ratings)} / 5</span></div>
+    <div class="detail-stat"><span class="detail-key">Unique authors</span><span class="detail-val">${gd.authors.size}</span></div>
+    <div class="detail-stat"><span class="detail-key">Notable authors</span><span class="detail-val" style="font-size:11px;max-width:160px;text-align:right">${topAuthors}</span></div>
+    <div class="detail-stat"><span class="detail-key">Price range</span><span class="detail-val">$${Math.min(...gd.prices).toFixed(2)}–$${Math.max(...gd.prices).toFixed(2)}</span></div>
+  `;
+}
+// default
+showGenreDetail(...sortedGenres[0], genreColors[0]);
+
+// ===================== PRICE SCATTER =====================
+const scatterGenreSelect = document.getElementById('scatter-genre');
+[...new Set(BOOKS.map(b=>b.g))].sort().forEach(g=>{
+  const opt=document.createElement('option'); opt.value=g; opt.textContent=g;
+  scatterGenreSelect.appendChild(opt);
+});
+
+let scatterChart = null;
+function buildScatter(){
+  const yr = document.getElementById('scatter-year').value;
+  const genre = scatterGenreSelect.value;
+
+  let data = BOOKS.filter(b=>b.p&&b.p>0);
+  if(genre!=='all') data=data.filter(b=>b.g===genre);
+
+  // get rank for chosen year
+  function getR(b){ 
+    if(yr==='all') return b.r23||b.r24||b.r25;
+    if(yr==='23') return b.r23;
+    if(yr==='24') return b.r24;
+    if(yr==='25') return b.r25;
+  }
+  data=data.filter(b=>getR(b)!=null);
+
+  const pts = data.map(b=>({x:b.p, y:getR(b), title:b.t, author:b.a, genre:b.g, price:b.p}));
+
+  const datasets=[{
+    label:'Books',
+    data: pts,
+    backgroundColor: pts.map(p=>{
+      const col=gColor(p.genre);
+      return col+'88';
+    }),
+    borderColor: pts.map(p=>gColor(p.genre)),
+    borderWidth:1,
+    pointRadius:6,
+    pointHoverRadius:9,
+  }];
+
+  if(scatterChart) scatterChart.destroy();
+  scatterChart = new Chart(document.getElementById('price-canvas'),{
+    type:'scatter',
+    data:{datasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label(ctx){
+              const d=ctx.raw;
+              return [`${d.title.substring(0,40)}`, `Price: $${d.price.toFixed(2)}`, `Rank: #${d.y}`];
+            }
+          }
+        }
+      },
+      scales:{
+        x:{title:{display:true,text:'Price ($)',font:{family:'DM Sans,sans-serif',size:12}},
+          ticks:{callback:v=>'$'+v}},
+        y:{title:{display:true,text:'Rank (lower = better)',font:{family:'DM Sans,sans-serif',size:12}},
+          reverse:true, min:1, suggestedMax:100,
+          ticks:{callback:v=>'#'+v}}
+      }
+    }
+  });
+}
+
+document.getElementById('scatter-year').onchange=buildScatter;
+scatterGenreSelect.onchange=buildScatter;
+buildScatter();
+
+// ===================== LONGEVITY GRID =====================
+const threeYear = BOOKS.filter(b=>b.y===3);
+// dedupe
+const seen3=new Set(); const unique3=threeYear.filter(b=>{if(seen3.has(b.t))return false;seen3.add(b.t);return true;});
+
+const genres3=[...new Set(unique3.map(b=>b.g))];
+const filterBar=document.querySelector('.filter-bar');
+genres3.forEach(g=>{
+  const btn=document.createElement('button'); btn.className='filter-btn';
+  btn.setAttribute('data-genre',g); btn.textContent=g.split(' & ')[0];
+  btn.onclick=()=>{
+    filterBar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderLongevity(g);
+  };
+  filterBar.appendChild(btn);
+});
+filterBar.querySelector('[data-genre="all"]').onclick=()=>{
+  filterBar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  filterBar.querySelector('[data-genre="all"]').classList.add('active');
+  renderLongevity('all');
+};
+
+function renderLongevity(genre){
+  const grid=document.getElementById('longevity-grid');
+  grid.innerHTML='';
+  const filtered = genre==='all'?unique3:unique3.filter(b=>b.g===genre);
+  filtered.sort((a,b)=>(a.r23||99)-(b.r23||99));
+  filtered.forEach(b=>{
+    const card=document.createElement('div'); card.className='book-card';
+    function badge(yr,r){ 
+      if(!r) return `<span class="rank-badge none">—</span>`;
+      return `<span class="rank-badge ${yr}">${yr==='y23'?'2023':yr==='y24'?'2024':'2025'} #${r}</span>`;
+    }
+    card.innerHTML=`
+      <div class="book-rank-badges">${badge('y23',b.r23)}${badge('y24',b.r24)}${badge('y25',b.r25)}</div>
+      <div class="book-title">${b.t.substring(0,60)}${b.t.length>60?'...':''}</div>
+      <div class="book-author">${b.a}</div>
+      <div class="book-meta">
+        <span class="book-tag">${b.g.split(' & ')[0]}</span>
+        <span class="book-tag">${b.f||''}</span>
+        <span class="book-price">$${b.p?b.p.toFixed(2):'—'}</span>
+      </div>`;
+    card.onmouseenter=e=>showTT(e,b.t,`<span style="color:#aaa">${b.a}</span><br>Rating: ${b.rt||'—'}/5<br>Reviews: ${(b.rv||0).toLocaleString()}`);
+    card.onmouseleave=hideTT;
+    grid.appendChild(card);
+  });
+}
+
+renderLongevity('all');
+</script>
+</body>
+</html>

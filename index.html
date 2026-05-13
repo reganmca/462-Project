@@ -44,31 +44,32 @@
   /* HERO */
   .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:80px 2rem 4rem;position:relative;overflow:hidden}
   .hero-bg{position:absolute;inset:0;z-index:0}
-  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.45) sepia(.3)}
-  .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom, rgba(245,240,232,.12) 0%, rgba(245,240,232,.68) 80%, var(--paper) 100%)}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 55%;filter:brightness(.28) saturate(.7)}
+  .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg, rgba(18,28,42,.55) 0%, rgba(18,28,42,.3) 50%, rgba(245,240,232,.0) 100%)}
   .hero-content{position:relative;z-index:1;max-width:700px}
+  .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#c4a882;margin-bottom:1.4rem;font-weight:500}
+  .hero h1{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.2rem);line-height:1.05;color:#f0ebe0;margin-bottom:1.5rem;font-weight:400;text-shadow:0 2px 24px rgba(0,0,0,.5)}
+  .hero h1 em{color:#d4907a;font-style:italic}
+  .hero-sub{font-size:1rem;color:rgba(220,212,198,.85);line-height:1.75;max-width:520px;margin:0 auto 2.5rem;font-weight:300}
+  .scroll-cue{display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(200,190,175,.7);font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+  .scroll-arrow{width:1px;height:40px;background:linear-gradient(to bottom, transparent, #d4907a);animation:scrollpulse 2s ease-in-out infinite}
+  @keyframes scrollpulse{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+
+  /* TICKER */
+  .ticker-bar{width:100%;overflow:hidden;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.08);padding:.85rem 0}
+  .ticker-inner{display:flex;gap:0;animation:tickerscroll 28s linear infinite;width:max-content;align-items:center}
+  .ticker-inner:hover{animation-play-state:paused}
+  .ticker-item{display:flex;align-items:center;gap:.5rem;padding:0 2.5rem;border-right:1px solid rgba(255,255,255,.1);white-space:nowrap}
+  .ticker-item:last-child{border-right:none}
+  .ticker-num{font-family:var(--serif);font-size:1.15rem;color:#d4907a;font-style:italic;line-height:1}
+  .ticker-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(200,190,175,.6)}
+  @keyframes tickerscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
   /* PHOTO DIVIDER */
   .photo-divider{width:100%;height:220px;overflow:hidden;position:relative}
-  .photo-divider img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.5) sepia(.4) hue-rotate(170deg)}
+  .photo-divider img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.38) saturate(.6) sepia(.3)}
   .photo-divider-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-  .photo-divider-label{font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.7rem);color:rgba(255,255,255,.9);letter-spacing:.06em;font-style:italic;text-shadow:0 2px 12px rgba(0,0,0,.4)}
-
-  /* BOOK STRIP */
-  .book-strip{width:100%;overflow:hidden;padding:2.5rem 0;background:var(--paper-dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-  .book-strip-inner{display:flex;gap:1.2rem;animation:stripscroll 40s linear infinite;width:max-content}
-  .book-strip-inner:hover{animation-play-state:paused}
-  .strip-book{width:90px;height:130px;border-radius:4px;overflow:hidden;flex:0 0 90px;box-shadow:3px 3px 10px rgba(0,0,0,.15)}
-  .strip-book img{width:100%;height:100%;object-fit:cover}
-  @keyframes stripscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-  .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;font-weight:500}
-  .hero h1{font-family:var(--serif);font-size:clamp(2.4rem,6vw,4.5rem);line-height:1.1;color:var(--ink);margin-bottom:1.5rem}
-  .hero h1 em{color:var(--accent);font-style:italic}
-  .hero-sub{font-size:1.05rem;color:var(--muted);line-height:1.7;max-width:540px;margin:0 auto 2.5rem}
-  .scroll-cue{display:flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-  .scroll-arrow{width:1px;height:40px;background:linear-gradient(to bottom, transparent, var(--accent));animation:scrollpulse 2s ease-in-out infinite}
-  @keyframes scrollpulse{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
-
+  .photo-divider-label{font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.75rem);color:rgba(240,235,224,.92);letter-spacing:.05em;font-style:italic;text-shadow:0 2px 14px rgba(0,0,0,.5);font-weight:400}
   /* SECTIONS */
   section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
   .section-header{text-align:center;margin-bottom:3.5rem}
@@ -191,7 +192,7 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-bg">
-    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600&q=80&auto=format&fit=crop" alt="Books on shelves" loading="eager">
+    <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1600&q=80&auto=format&fit=crop" alt="Dark library" loading="eager">
   </div>
   <div class="hero-content">
     <div class="eyebrow">An Interactive Data Story</div>
@@ -204,9 +205,9 @@
   </div>
 </section>
 
-<!-- BOOK STRIP -->
-<div class="book-strip">
-  <div class="book-strip-inner" id="book-strip-inner"></div>
+<!-- DATA TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-inner" id="ticker-inner"></div>
 </div>
 
 <!-- OVERVIEW STATS -->
@@ -662,20 +663,26 @@ function renderLongevity(genre){
 
 renderLongevity('all');
 
-// ===================== BOOK STRIP =====================
-const stripPhotos = [
-  '1589998059171-988d887df646','1543002588-bfa74002ed7e','1512820790803-83ca734da794',
-  '1532012197267-da84d127e765','1550399105-c4db5fb85c18','1476275466078-4cdc8516f28b',
-  '1491841651911-c44fbc9d7a4d','1544947950-fa07a98d237f','1495640388908-05fa85288e61',
-  '1497633762265-9d179a990aa6','1516541519452-51b76a09f817','1519682337058-a94d519337bc',
+// ===================== DATA TICKER =====================
+const tickerFacts = [
+  {num:'#1', label:'Atomic Habits — held top 10 all 3 years'},
+  {num:'210', label:'unique titles across 2023–2025'},
+  {num:'23', label:'books that appeared every single year'},
+  {num:'$1.88', label:'cheapest bestseller (It Starts with Us)'},
+  {num:'$52.62', label:'most expensive (Harry Potter box set)'},
+  {num:'4.9★', label:'highest rated — The Very Hungry Caterpillar'},
+  {num:'653K', label:'reviews — The Housemaid, most reviewed'},
+  {num:'55', label:'Fiction titles — the dominant genre'},
+  {num:'#1→#5', label:'The Housemaid climbed every year'},
+  {num:'6×', label:'Freida McFadden — most titles on the list'},
+  {num:'$19.10', label:'Health books avg price — highest genre'},
+  {num:'37', label:'Reading & Writing titles — #2 genre'},
 ];
-const strip = document.getElementById('book-strip-inner');
-[...stripPhotos,...stripPhotos].forEach(id=>{
-  const d=document.createElement('div'); d.className='strip-book';
-  const img=document.createElement('img');
-  img.src=`https://images.unsplash.com/photo-${id}?w=180&h=260&q=75&auto=format&fit=crop`;
-  img.alt='book'; img.loading='lazy';
-  d.appendChild(img); strip.appendChild(d);
+const ticker = document.getElementById('ticker-inner');
+[...tickerFacts,...tickerFacts].forEach(f=>{
+  const d=document.createElement('div'); d.className='ticker-item';
+  d.innerHTML=`<span class="ticker-num">${f.num}</span><span class="ticker-label">${f.label}</span>`;
+  ticker.appendChild(d);
 });
 </script>
 </body>

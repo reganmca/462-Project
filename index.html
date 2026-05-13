@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What America Was Reading — 2023 to 2025</title>
+<title>American Bestsellers Scrollytelling</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -262,9 +262,9 @@
 <!-- GENRE BREAKDOWN -->
 <section id="genres">
   <div class="section-header fade-in">
-    <div class="section-eyebrow">Genre landscape</div>
-    <h2 class="section-title">Fiction ruled. Self-improvement endured.</h2>
-    <p class="section-desc">Click any genre bar to explore its average price, ratings, and key authors.</p>
+    <div class="section-eyebrow">Genres</div>
+    <h2 class="section-title">Fiction remained on top. Self-Improvement Persisted.</h2>
+    <p class="section-desc">Click any genre bar to see its average price, ratings, and key authors.</p>
   </div>
   <div class="genre-grid fade-in">
     <div>
@@ -280,7 +280,7 @@
 <div class="photo-divider">
   <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=1600&q=80&auto=format&fit=crop" alt="Open books and coffee">
   <div class="photo-divider-overlay">
-    <span class="photo-divider-label">Does price predict a bestseller?</span>
+    <span class="photo-divider-label">How does price influence our purchases?</span>
   </div>
 </div>
 
@@ -288,7 +288,7 @@
 <section id="price">
   <div class="section-header fade-in">
     <div class="section-eyebrow">Price & popularity</div>
-    <h2 class="section-title">Does cheaper mean more popular?</h2>
+    <h2 class="section-title">Does cheaper equal popular?</h2>
     <p class="section-desc">Each dot is a book. Hover to identify it. Filter by year or genre to isolate patterns.</p>
   </div>
   <div class="fade-in">
@@ -312,7 +312,7 @@
 <div class="photo-divider">
   <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1600&q=80&auto=format&fit=crop" alt="Books on a wooden table">
   <div class="photo-divider-overlay">
-    <span class="photo-divider-label">The books that endured</span>
+    <span class="photo-divider-label">The books that persisted</span>
   </div>
 </div>
 
@@ -321,7 +321,7 @@
   <div class="section-header fade-in">
     <div class="section-eyebrow">The perennials</div>
     <h2 class="section-title">23 books that stayed on the list all three years</h2>
-    <p class="section-desc">These are the books that transcended the moment. Filter by genre or sort to find the most durable titles.</p>
+    <p class="section-desc">These are the books that maintained their. Filter by genre or sort to find different titles.</p>
   </div>
   <div class="fade-in">
     <div class="filter-bar">
@@ -344,8 +344,8 @@
 
   <div class="section-header fade-in">
     <div class="section-eyebrow">Conclusion</div>
-    <h2 class="section-title">A nation reading itself</h2>
-    <p class="section-desc">The books America buys are a mirror. Arranged below as a shelf — each spine scaled by reader engagement, grouped by the cultural impulse that drove them — a portrait of 2023–2025 emerges.</p>
+    <h2 class="section-title">Our bookshelves are our mirror</h2>
+    <p class="section-desc">The books America buys are connected to our cultural interests. Arranged below as a shelf with each spine scaled by reader engagement, grouped by the cultural influences that defined them.</p>
   </div>
 
   <!-- SHELF LEGEND + CONTROLS -->
@@ -364,17 +364,18 @@
   <!-- CLOSING ESSAY -->
   <div class="fade-in" style="max-width:720px;margin:3.5rem auto 0;border-left:3px solid var(--accent2);padding-left:1.75rem">
     <p style="font-family:var(--serif);font-size:1.18rem;line-height:1.85;color:var(--ink);font-style:italic;margin-bottom:1rem">
-      "The list is never just a list. It is a record of what we needed — comfort, answers, escape, and meaning — in the exact years we lived through."
+      "When I look back, I am so impressed again with the life-giving power of literature. If I were a young person today, trying to gain a sense of myself in the world, I would do that again by reading, just as I did when I was young"
+     <br>Maya Angelou
     </p>
     <p style="font-size:.9rem;color:var(--muted);line-height:1.75">
-      From 2023 to 2025, Americans processed political upheaval through dystopian classics like <em>1984</em> and <em>Animal Farm</em>. They sought bodily autonomy and longevity through health titles that surged after the pandemic. They devoured female-authored thrillers and romance at a scale that reshaped publishing. They bought self-help bibles — <em>Atomic Habits</em>, <em>The Four Agreements</em> — year after year, suggesting not resolution but ongoing effort. And they kept children's board books on the bestseller list, a quiet signal of a baby boom and a generation of parents reaching for ritual in uncertain times. The shelf, taken together, is not entertainment. It is testimony.
+      From 2023 to 2025, dystopian classics like <em>1984</em> and <em>Animal Farm</em> assisted Americans during times of political unrest and uncertainty. The trends in health titles that surged can be seen as a reflective of post-pandemic concerns. Female-authored thrillers and romance boomed. Self-help essentials like <em>Atomic Habits</em>, <em>The Four Agreements</em> consistently appeared on the list, suggesting not resolution but ongoing effort. Children's board books held out on the bestseller list, which could represent parents reaching for ritual in uncertain times. Our bookshelves are a mirror into our society and culture.
     </p>
   </div>
 
 </section>
 
 <footer>
-  <strong>What America Was Reading</strong> — Data: Amazon Best Sellers 2023–2025 &nbsp;·&nbsp; Built for INFO 4310
+  <strong>American Bestsellers Scrollytelling</strong> — Data: Amazon Best Sellers 2023–2025 &nbsp;·&nbsp; Built for INFO 462
 </footer>
 
 <script>
@@ -896,65 +897,6 @@ Object.entries(CULTURAL_GROUPS).forEach(([grp, d]) => {
   legendEl.appendChild(item);
 });
 
-// ===================== TAKEAWAY CARDS =====================
-const takeaways = [
-  {
-    icon:'📖',
-    head:'We escaped into fiction',
-    body:'Romance, fantasy, and thriller dominated the list every year. During a period of political and social turbulence, Americans turned to invented worlds — especially ones led by fierce female protagonists.',
-    color:'#8b3a3a'
-  },
-  {
-    icon:'🔧',
-    head:'We kept trying to fix ourselves',
-    body:'Self-help and health books never left the top 50. Atomic Habits alone held a top-10 spot for three straight years — a sign that the desire for self-optimization has become a permanent feature of American life.',
-    color:'#5a6e3a'
-  },
-  {
-    icon:'🗳️',
-    head:'Dystopia became a reading list',
-    body:'1984, Animal Farm, and Fahrenheit 451 all surged back onto the bestseller list. Classic dystopian novels re-enter the mainstream every time democratic institutions feel threatened — and 2023–2025 was no exception.',
-    color:'#2e5f8a'
-  },
-  {
-    icon:'👶',
-    head:'Parents bought books in bulk',
-    body:'Children\'s board books and early-reader titles formed a surprisingly large share of the list — The Very Hungry Caterpillar, Brown Bear, Chicka Chicka Boom Boom. The list reflects a generation of parents investing heavily in early literacy.',
-    color:'#3a6e5a'
-  },
-];
-
-const cardsEl = document.getElementById('takeaway-cards');
-takeaways.forEach(t => {
-  const card = document.createElement('div');
-  card.style.cssText = `background:var(--card);border:1px solid var(--border);border-top:3px solid ${t.color};border-radius:10px;padding:1.4rem 1.5rem`;
-  card.innerHTML = `
-    <div style="font-size:1.5rem;margin-bottom:.6rem">${t.icon}</div>
-    <div style="font-family:var(--serif);font-size:1rem;color:var(--ink);margin-bottom:.6rem;font-weight:600">${t.head}</div>
-    <div style="font-size:.85rem;color:var(--muted);line-height:1.7">${t.body}</div>`;
-  cardsEl.appendChild(card);
-});
-
-const tickerFacts = [
-  {num:'#1', label:'Atomic Habits — held top 10 all 3 years'},
-  {num:'210', label:'unique titles across 2023–2025'},
-  {num:'23', label:'books that appeared every single year'},
-  {num:'$1.88', label:'cheapest bestseller (It Starts with Us)'},
-  {num:'$52.62', label:'most expensive (Harry Potter box set)'},
-  {num:'4.9★', label:'highest rated — The Very Hungry Caterpillar'},
-  {num:'653K', label:'reviews — The Housemaid, most reviewed'},
-  {num:'55', label:'Fiction titles — the dominant genre'},
-  {num:'#1→#5', label:'The Housemaid climbed every year'},
-  {num:'6×', label:'Freida McFadden — most titles on the list'},
-  {num:'$19.10', label:'Health books avg price — highest genre'},
-  {num:'37', label:'Reading & Writing titles — #2 genre'},
-];
-const ticker = document.getElementById('ticker-inner');
-[...tickerFacts,...tickerFacts].forEach(f=>{
-  const d=document.createElement('div'); d.className='ticker-item';
-  d.innerHTML=`<span class="ticker-num">${f.num}</span><span class="ticker-label">${f.label}</span>`;
-  ticker.appendChild(d);
-});
 </script>
 </body>
 </html>

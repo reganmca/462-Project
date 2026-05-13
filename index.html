@@ -3,23 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Story of Us — Bestselling Books from 2023 to 2025</title>
+<title>What America Was Reading — 2023 to 2025</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
-    --ink:#1a1714;--paper:#faf8f4;--accent:#b5451b;--accent2:#2c5f8a;--gold:#c9973a;
-    --muted:#6b6560;--border:#e0dbd2;--card:#ffffff;
-    --serif:'Playfair Display',Georgia,serif;
-    --sans:'DM Sans',system-ui,sans-serif;
+    --ink:#1e2a38;
+    --ink-light:#2e3f52;
+    --paper:#f5f0e8;
+    --paper-dark:#ece5d6;
+    --paper-mid:#f0eadb;
+    --accent:#8b3a3a;
+    --accent2:#5a6e3a;
+    --gold:#8b7a3a;
+    --muted:#6a7580;
+    --border:#cfc8b8;
+    --card:#fdf9f3;
+    --serif:'EB Garamond',Georgia,serif;
+    --sans:'Inter',system-ui,sans-serif;
   }
   html{scroll-behavior:smooth;background:var(--paper)}
-  body{font-family:var(--sans);color:var(--ink);overflow-x:hidden}
+  body{
+    font-family:var(--sans);color:var(--ink);overflow-x:hidden;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-repeat:repeat;
+  }
 
   /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,244,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;gap:2rem}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,240,232,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 2rem;height:52px;display:flex;align-items:center;gap:2rem}
   .nav-logo{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--accent);flex:0 0 auto}
   .nav-links{display:flex;gap:1.5rem;list-style:none}
   .nav-links a{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
@@ -28,8 +43,24 @@
 
   /* HERO */
   .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:80px 2rem 4rem;position:relative;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%, #f0ebe0 0%, var(--paper) 70%);z-index:0}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.45) sepia(.3)}
+  .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom, rgba(245,240,232,.12) 0%, rgba(245,240,232,.68) 80%, var(--paper) 100%)}
   .hero-content{position:relative;z-index:1;max-width:700px}
+
+  /* PHOTO DIVIDER */
+  .photo-divider{width:100%;height:220px;overflow:hidden;position:relative}
+  .photo-divider img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.5) sepia(.4) hue-rotate(170deg)}
+  .photo-divider-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .photo-divider-label{font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.7rem);color:rgba(255,255,255,.9);letter-spacing:.06em;font-style:italic;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+
+  /* BOOK STRIP */
+  .book-strip{width:100%;overflow:hidden;padding:2.5rem 0;background:var(--paper-dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .book-strip-inner{display:flex;gap:1.2rem;animation:stripscroll 40s linear infinite;width:max-content}
+  .book-strip-inner:hover{animation-play-state:paused}
+  .strip-book{width:90px;height:130px;border-radius:4px;overflow:hidden;flex:0 0 90px;box-shadow:3px 3px 10px rgba(0,0,0,.15)}
+  .strip-book img{width:100%;height:100%;object-fit:cover}
+  @keyframes stripscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
   .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;font-weight:500}
   .hero h1{font-family:var(--serif);font-size:clamp(2.4rem,6vw,4.5rem);line-height:1.1;color:var(--ink);margin-bottom:1.5rem}
   .hero h1 em{color:var(--accent);font-style:italic}
@@ -72,12 +103,12 @@
   .genre-bars{display:flex;flex-direction:column;gap:.7rem}
   .genre-bar-row{display:flex;align-items:center;gap:.8rem}
   .genre-name{font-size:12px;color:var(--ink);width:180px;flex:0 0 180px;text-align:right;line-height:1.3}
-  .genre-track{flex:1;height:20px;background:#f0ede7;border-radius:3px;overflow:hidden;position:relative}
+  .genre-track{flex:1;height:20px;background:var(--paper-dark);border-radius:3px;overflow:hidden;position:relative}
   .genre-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.25,.46,.45,.94);display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
   .genre-count{font-size:11px;font-weight:500;color:white}
   .genre-details{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem}
   .genre-detail-title{font-family:var(--serif);font-size:1.1rem;margin-bottom:1rem;color:var(--ink)}
-  .detail-stat{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid #f0ede7;font-size:13px}
+  .detail-stat{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:13px}
   .detail-stat:last-child{border-bottom:none}
   .detail-key{color:var(--muted)}
   .detail-val{font-weight:500;color:var(--ink)}
@@ -91,22 +122,22 @@
   /* LONGEVITY TABLE */
   .longevity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
   .book-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.3rem;cursor:pointer;transition:all .2s;position:relative}
-  .book-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(181,69,27,.1);transform:translateY(-2px)}
-  .book-card.selected{border-color:var(--accent);border-width:2px;background:#fdf6f3}
+  .book-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(30,42,56,.12);transform:translateY(-2px)}
+  .book-card.selected{border-color:var(--accent);border-width:2px;background:#f5eeee}
   .book-rank-badges{display:flex;gap:.4rem;margin-bottom:.6rem}
   .rank-badge{font-size:10px;padding:.2rem .5rem;border-radius:4px;font-weight:500;letter-spacing:.03em}
-  .rank-badge.y23{background:#fde8de;color:#9a3210}
-  .rank-badge.y24{background:#deeaf7;color:#1a4f7a}
-  .rank-badge.y25{background:#e0f4e8;color:#1a6135}
-  .rank-badge.none{background:#f0ede7;color:#a09890}
+  .rank-badge.y23{background:#ede0e0;color:#6b2828}
+  .rank-badge.y24{background:#dde3ed;color:#1e3a5a}
+  .rank-badge.y25{background:#e1e8d8;color:#3a5020}
+  .rank-badge.none{background:var(--paper-dark);color:var(--muted)}
   .book-title{font-family:var(--serif);font-size:.9rem;line-height:1.3;margin-bottom:.25rem;color:var(--ink)}
   .book-author{font-size:11px;color:var(--muted)}
   .book-meta{display:flex;gap:.6rem;margin-top:.5rem;flex-wrap:wrap}
-  .book-tag{font-size:10px;padding:.15rem .5rem;border-radius:3px;background:#f0ede7;color:var(--muted)}
+  .book-tag{font-size:10px;padding:.15rem .5rem;border-radius:3px;background:var(--paper-dark);color:var(--muted)}
   .book-price{font-size:12px;font-weight:500;color:var(--accent);margin-left:auto}
 
   /* TOOLTIP */
-  .tooltip{position:fixed;background:var(--ink);color:white;padding:.7rem 1rem;border-radius:8px;font-size:12px;line-height:1.5;pointer-events:none;z-index:999;max-width:220px;opacity:0;transition:opacity .15s}
+  .tooltip{position:fixed;background:var(--ink);color:#e8e4dc;padding:.7rem 1rem;border-radius:8px;font-size:12px;line-height:1.5;pointer-events:none;z-index:999;max-width:220px;opacity:0;transition:opacity .15s}
   .tooltip.show{opacity:1}
   .tooltip-title{font-family:var(--serif);font-size:13px;margin-bottom:.25rem}
 
@@ -139,10 +170,6 @@
     .genre-name{width:110px;flex:0 0 110px;font-size:11px}
     nav .nav-links{display:none}
   }
-
- background-image:
-  radial-gradient(rgba(0,0,0,.015) 1px, transparent 1px);
-background-size: 6px 6px;
 </style>
 </head>
 <body>
@@ -163,11 +190,13 @@ background-size: 6px 6px;
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600&q=80&auto=format&fit=crop" alt="Books on shelves" loading="eager">
+  </div>
   <div class="hero-content">
-    <div class="eyebrow">INST462 ScrollyTelling Project</div>
-    <h1>The Story of <em>Us</em>.<br>Bestselling Books from 2023 to 2025</h1>
-    <p class="hero-sub">210 titles made the bestseller lister over 3 years. What does that tell us about how our society changes?</p>
+    <div class="eyebrow">An Interactive Data Story</div>
+    <h1>What <em>America</em><br>Was Reading</h1>
+    <p class="hero-sub">Three years. 210 titles. One Amazon bestseller list. Scroll to discover which books endured, which genres dominated, and what it reveals about us.</p>
     <div class="scroll-cue" onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">
       <span>Scroll to explore</span>
       <div class="scroll-arrow"></div>
@@ -175,7 +204,10 @@ background-size: 6px 6px;
   </div>
 </section>
 
-<div class="divider"></div>
+<!-- BOOK STRIP -->
+<div class="book-strip">
+  <div class="book-strip-inner" id="book-strip-inner"></div>
+</div>
 
 <!-- OVERVIEW STATS -->
 <section id="overview">
@@ -190,7 +222,7 @@ background-size: 6px 6px;
     <div class="stat-card"><span class="stat-num">21</span><div class="stat-label">Genres represented</div></div>
     <div class="stat-card"><span class="stat-num">$1–$53</span><div class="stat-label">Price range</div></div>
   </div>
-  <div class="fade-in" style="max-width:780px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem 2.5rem">
+  <div class="fade-in" style="max-width:780px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:2rem 2.5rem">
     <p style="font-family:var(--serif);font-size:1.2rem;line-height:1.75;color:var(--ink)">
       "Some books briefly catch the current. Others <em>are</em> the current." 
     </p>
@@ -198,7 +230,12 @@ background-size: 6px 6px;
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="photo-divider">
+  <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600&q=80&auto=format&fit=crop" alt="Library shelves">
+  <div class="photo-divider-overlay">
+    <span class="photo-divider-label">Tracing three years of reading trends</span>
+  </div>
+</div>
 
 <!-- RANK TRAJECTORY BUMP CHART -->
 <section id="trends" id="bump-section">
@@ -214,7 +251,12 @@ background-size: 6px 6px;
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="photo-divider">
+  <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1600&q=80&auto=format&fit=crop" alt="Reading in a library">
+  <div class="photo-divider-overlay">
+    <span class="photo-divider-label">What genres captured America's attention?</span>
+  </div>
+</div>
 
 <!-- GENRE BREAKDOWN -->
 <section id="genres">
@@ -234,7 +276,12 @@ background-size: 6px 6px;
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="photo-divider">
+  <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=1600&q=80&auto=format&fit=crop" alt="Open books and coffee">
+  <div class="photo-divider-overlay">
+    <span class="photo-divider-label">Does price predict a bestseller?</span>
+  </div>
+</div>
 
 <!-- PRICE vs RANK SCATTER -->
 <section id="price">
@@ -261,7 +308,12 @@ background-size: 6px 6px;
   </div>
 </section>
 
-<div class="divider"></div>
+<div class="photo-divider">
+  <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1600&q=80&auto=format&fit=crop" alt="Books on a wooden table">
+  <div class="photo-divider-overlay">
+    <span class="photo-divider-label">The books that endured</span>
+  </div>
+</div>
 
 <!-- LONGEVITY — 3-YEAR BOOKS -->
 <section id="legends">
@@ -320,18 +372,18 @@ document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 
 // ===================== BUMP CHART =====================
 const GENRE_COLORS = {
-  'Fiction & Action & Adventure':'#c0392b',
-  'Reading & Writing':'#2980b9',
-  'Self-Improvement':'#8e44ad',
-  'Mystery & Thriller & Suspense':'#e67e22',
-  'Health & Fitness & Dieting':'#27ae60',
-  'Biographies & Memoirs':'#16a085',
-  'Politics & Social Sciences':'#d35400',
-  'Business & Money':'#2c3e50',
-  'Arts & Music & Photography':'#c0392b',
-  'Bible Study & Reference':'#7f8c8d',
-  'Comics & Graphic Novels':'#e74c3c',
-  'Cookbooks & Food':'#f39c12',
+  'Fiction & Action & Adventure':'#8b3a3a',
+  'Reading & Writing':'#2e5f8a',
+  'Self-Improvement':'#5a6e3a',
+  'Mystery & Thriller & Suspense':'#7a4f2e',
+  'Health & Fitness & Dieting':'#3a6e5a',
+  'Biographies & Memoirs':'#4a5e7a',
+  'Politics & Social Sciences':'#6e3a4a',
+  'Business & Money':'#1e2a38',
+  'Arts & Music & Photography':'#8b6a3a',
+  'Bible Study & Reference':'#6a6a5a',
+  'Comics & Graphic Novels':'#6e3a3a',
+  'Cookbooks & Food':'#7a6a2e',
 };
 function gColor(g){ return GENRE_COLORS[g]||'#95a5a6'; }
 
@@ -445,7 +497,7 @@ BOOKS.forEach(b=>{
 });
 const sortedGenres = Object.entries(genreData).sort((a,b)=>b[1].count-a[1].count);
 const maxCount = sortedGenres[0][1].count;
-const genreColors = ['#c0392b','#2980b9','#e67e22','#8e44ad','#27ae60','#16a085','#d35400','#2c3e50','#7f8c8d','#f39c12','#e74c3c','#95a5a6'];
+const genreColors = ['#8b3a3a','#2e5f8a','#7a4f2e','#5a6e3a','#3a6e5a','#4a5e7a','#6e3a4a','#1e2a38','#6a6a5a','#8b6a3a','#6e3a3a','#7a6a2e'];
 
 const genreBars = document.getElementById('genre-bars');
 sortedGenres.forEach(([g,gd],i)=>{
@@ -609,6 +661,22 @@ function renderLongevity(genre){
 }
 
 renderLongevity('all');
+
+// ===================== BOOK STRIP =====================
+const stripPhotos = [
+  '1589998059171-988d887df646','1543002588-bfa74002ed7e','1512820790803-83ca734da794',
+  '1532012197267-da84d127e765','1550399105-c4db5fb85c18','1476275466078-4cdc8516f28b',
+  '1491841651911-c44fbc9d7a4d','1544947950-fa07a98d237f','1495640388908-05fa85288e61',
+  '1497633762265-9d179a990aa6','1516541519452-51b76a09f817','1519682337058-a94d519337bc',
+];
+const strip = document.getElementById('book-strip-inner');
+[...stripPhotos,...stripPhotos].forEach(id=>{
+  const d=document.createElement('div'); d.className='strip-book';
+  const img=document.createElement('img');
+  img.src=`https://images.unsplash.com/photo-${id}?w=180&h=260&q=75&auto=format&fit=crop`;
+  img.alt='book'; img.loading='lazy';
+  d.appendChild(img); strip.appendChild(d);
+});
 </script>
 </body>
 </html>
